@@ -22,6 +22,10 @@ public class Spouse {
         this.age = age;
     }
 
+    public Spouse() {
+
+    }
+
     public int getId() {
         return id;
     }

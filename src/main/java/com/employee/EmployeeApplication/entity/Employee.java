@@ -1,7 +1,7 @@
 package com.employee.EmployeeApplication.entity;
 
 import jakarta.persistence.*;
-
+import java.util.*;
 @Entity
 public class Employee {
 
@@ -13,8 +13,12 @@ public class Employee {
     String employeeSSN;
 
     @OneToOne
-    @JoinColumn(name = "emp_spouse)")
+    @JoinColumn(name = "emp_spouse")
     private Spouse spouse;
+
+    @OneToMany
+//    @JoinColumn(name = "emp_addresses")
+    private List<Address> addresses;
 
 
     public Employee() {
