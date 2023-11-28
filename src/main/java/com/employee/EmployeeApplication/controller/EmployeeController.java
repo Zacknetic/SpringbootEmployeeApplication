@@ -26,13 +26,15 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public boolean addEmployee(@RequestBody Employee employee) {
-        return employeeService.addEmployee(employee);
+    public String addEmployee(@RequestBody Employee employee) {
+
+        if (employeeService.addEmployee(employee)) return "Success.";
+    return "Add employee failed";
     }
 
     @PutMapping("/employees/{id}")
-    public boolean editEmployeeById(@PathVariable int id, @RequestBody Employee employee) {
-        return employeeService.editEmployee(id, employee.getEmployeeName(), employee.getEmployeeCity(), employee.getEmployeeSSN());
+    public String editEmployeeById(@PathVariable int id, @RequestBody Employee employee) {
+        return employeeService.editEmployee(id, employee);
     }
 
     @DeleteMapping("/employees/{id}")
