@@ -1,5 +1,6 @@
 package com.employee.EmployeeApplication.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,16 +18,18 @@ public class Address {
     private String zipCode;
     private String country;
 
+    @JsonIgnore
     @ManyToOne
     private Employee employee;
 
-    public Address(String line1, String line2, String city, String state, String zipCode, String country) {
+    public Address(String line1, String line2, String city, String state, String zipCode, String country, Employee employee) {
         this.line1 = line1;
         this.line2 = line2;
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
         this.country = country;
+        this.employee = employee;
     }
 
     public Address() {
@@ -88,4 +91,6 @@ public class Address {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+
 }

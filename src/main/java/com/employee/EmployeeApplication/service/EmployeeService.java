@@ -1,11 +1,14 @@
 package com.employee.EmployeeApplication.service;
 
+import com.employee.EmployeeApplication.entity.Address;
 import com.employee.EmployeeApplication.entity.Employee;
 import com.employee.EmployeeApplication.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -39,9 +42,12 @@ public class EmployeeService {
 //    }
 
     public boolean addEmployee(Employee employee) {
-        if (employee.getEmployeeName() == null || employee.getEmployeeCity() == null || employee.getEmployeeSSN() == null)
-            return false;
-//        employeeList.add(employee);
+        ArrayList<Address> addressesArrayList = new ArrayList<>();
+
+        for (Address address : employee.getAddresses()) {
+            addressesArrayList.add(new Address(address.getLine1(), address.getLine2(), address.getCity(), address.getState(), address.getZipCode(), address.getCountry(), employee));
+        }
+        employee.setAddresses(addressesArrayList);
         employeeRepository.save(employee);
         return true;
     }
@@ -71,6 +77,7 @@ public class EmployeeService {
         }
         return false; // Employee with the given id was not found.
     }
+
     public static String[] getNullPropertyNames(Object source) {
         final BeanWrapper src = new BeanWrapperImpl(source);
         PropertyDescriptor[] pds = src.getPropertyDescriptors();

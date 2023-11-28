@@ -2,6 +2,7 @@ package com.employee.EmployeeApplication.entity;
 
 import jakarta.persistence.*;
 import java.util.*;
+
 @Entity
 public class Employee {
 
@@ -12,14 +13,20 @@ public class Employee {
     String employeeCity;
     String employeeSSN;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "emp_spouse")
     private Spouse spouse;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "emp_addresses")
     private List<Address> addresses;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "employee_project",
+    joinColumns = @JoinColumn (name = "emp employee"),
+            inverseJoinColumns = @JoinColumn(name = "emp_project")
+    )
+    private List<Project> projects;
 
     public Employee() {
 //        this.employeeId = 10000000 + (int) (Math.random() * 90000000);
@@ -59,5 +66,31 @@ public class Employee {
 
     public void setSpouse(Spouse spouse) {
         this.spouse = spouse;
+    }
+
+    public void removeProject(Project project) {
+        this.projects.remove(project);
+        project.getEmployees().remove(project);
+    }
+
+    public void addProject(Project project) {
+        this.projects.add(project);
+        project.getEmployees().add(this);
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
 }
